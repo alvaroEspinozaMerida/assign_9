@@ -43,13 +43,17 @@ std::unordered_map<int, PathVertexInfo*> CityPathFinder::DijkstraShortestPath(in
 //            cout<<"from"<<edge.from_vertex<<":"<<edge.to_vertex<<endl;
             Vertex adjacentVertex = graph.vertices[edge.to_vertex];
 
+
+
 //            cout<<"EDGE WEIGHT"<<edge.weight<<endl;
 
             int altDistance = currentInfo->distance + edge.weight;
 
             PathVertexInfo* adjInfo = info[adjacentVertex.id];
 
-//            cout<<"Adj info:"<<adjInfo->distance<<endl;
+
+//            cout<<"Adj info id:"<<adjInfo->distance<<endl;
+//            cout<<"Adj info di:"<<adjInfo->distance<<endl;
 
 
             if(altDistance < adjInfo->distance){
@@ -67,6 +71,33 @@ std::unordered_map<int, PathVertexInfo*> CityPathFinder::DijkstraShortestPath(in
 }
 
 
+std::string shortestPath( std::unordered_map<int, PathVertexInfo*> info,
+                          int start,int end ){
+    string path = "";
+
+    int current = end;
+
+    while(current != start){
+        path = "-> " +std::to_string(current)+ path;
+        current = info[current]->predecessor;
+    }
+    path = std::to_string(current) + path;
+
+    return path;
+}
+
+
+bool checkInput( std::unordered_map<std::string, Vertex> map ,  std::string input1 ){
+
+
+    if (auto search = map.find(input1); search != map.end()){
+        return true;
+    }
+    return false;
+
+}
+
+
 
 int main(){
 
@@ -74,8 +105,6 @@ int main(){
     std::unordered_map<std::string, Vertex> map;
 
     vector<Vertex> cities;
-
-
 
     //adding edge data into the graph
     std::ifstream road_file("road.txt");
@@ -123,12 +152,25 @@ int main(){
 
         Vertex city_data(id_val, s_id, city_name,pop_val,elevation_val);
 
-//        map[s_id] = city_data;
+        roads.addVertex(city_data);
+
+        map[s_id] = city_data;
+
+
         cities.push_back(city_data);
 
     }
 
     city_file.close();
+
+
+    cout<< checkInput(map,"AN")<<endl;
+    cout<< checkInput(map,"BK")<<endl;
+    cout<< checkInput(map,"JK")<<endl;
+
+
+
+
 
 
 //    roads.printGraph();
@@ -144,6 +186,11 @@ int main(){
     std::unordered_map<int, PathVertexInfo*> info = CityPathFinder::DijkstraShortestPath(0,cities,roads);
 
     PathVertexInfo::print_path_vertex_info(info);
+
+
+    cout<<shortestPath(info,0,12)<<endl;
+    cout<<shortestPath(info,0,18)<<endl;
+    cout<<shortestPath(info,2,20)<<endl;
 
 
 

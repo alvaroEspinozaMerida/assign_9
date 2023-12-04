@@ -28,7 +28,7 @@ Graph::~Graph()
 void Graph::addVertex(Vertex v)
 {
     //verticies get added into the verticies list
-    numVerts += 1;
+//    numVerts += 1;
     vertices.push_back(v);
     //new edge list gets added to adj list to represent new list of
     //adjacent verticies to this vertex

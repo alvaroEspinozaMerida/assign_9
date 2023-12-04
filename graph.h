@@ -26,9 +26,6 @@ public:
     // The name of the vertex. Additional attributes can be added
     string s_id, city_name;
 
-
-
-
     Vertex(int id = 0, string s_id = "", string city_name="", int population = 0, int elevation = 0 ) {
         this->id = id;
         this->s_id = s_id;
@@ -49,7 +46,7 @@ struct PathVertexInfo{
     PathVertexInfo(int vertex = 0 ) {
         this->vertex_id = vertex;
 
-        distance = std::numeric_limits<int>::infinity();
+        distance = std::numeric_limits<int>::max();
 
         predecessor = -1;
     }
