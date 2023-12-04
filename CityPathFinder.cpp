@@ -8,14 +8,26 @@
 
 #include "CityPathFinder.h"
 
-#include "graph.h"
-
-#include <unordered_map>
 
 
-std::vector<int> CityPathFinder::DijkstraShortestPath(int start_vertex, int graph_length) {
+std::vector<int> CityPathFinder::DijkstraShortestPath(int start_vertex, int graph_length,vector<Vertex> cities ) {
 
-    int distance;
+    vector<Vertex> unvisited;
+    for (Vertex vertex :cities) {
+
+        if(vertex.id != start_vertex){
+            unvisited.push_back(vertex);
+        }
+    }
+
+
+
+
+    int distance = 0 ;
+    while (unvisited.size() > 0) {
+
+
+    }
 
 
 
@@ -30,6 +42,9 @@ int main(){
 
     Graph roads(20);
     std::unordered_map<std::string, Vertex> map;
+
+    vector<Vertex> cities;
+
 
 
     //adding edge data into the graph
@@ -78,7 +93,8 @@ int main(){
 
         Vertex city_data(id_val, s_id, city_name,pop_val,elevation_val);
 
-        map[s_id] = city_data;
+//        map[s_id] = city_data;
+        cities.push_back(city_data);
 
     }
 

@@ -5,13 +5,15 @@
 #ifndef ASSIGN_9_CITYPATHFINDER_H
 #define ASSIGN_9_CITYPATHFINDER_H
 #include <vector>
+#include "graph.h"
+
+#include <unordered_map>
 
 class CityPathFinder {
 
     public:
 
-        std::vector<int> DijkstraShortestPath(int start_vertex, int graph_length);
-
+        std::vector<int> DijkstraShortestPath(int start_vertex, int end_vertex, vector<Vertex> cities);
 
 
 
