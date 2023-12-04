@@ -16,13 +16,22 @@ using namespace std;
 class Vertex {
 public:
     // The index of the vertex. starting from 0
-    int id;
+    int id, population, elevation;
     // The name of the vertex. Additional attributes can be added
-    string name;
+    string s_id, city_name;
 
-    Vertex(int id = 0, string name="") {
+
+
+
+    Vertex(int id = 0, string s_id = "", string city_name="", int population = 0, int elevation = 0 ) {
         this->id = id;
-        this->name = name;
+        this->s_id = s_id;
+        this->city_name = city_name;
+
+        this->population  = population;
+        this->elevation = elevation;
+
+
     }
 };
 
