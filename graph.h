@@ -7,6 +7,12 @@
 #include <list>
 #include <queue>
 #include <iostream>
+#include <limits>
+
+#include <unordered_map>
+
+
+
 using namespace std;
 
 /**
@@ -34,6 +40,59 @@ public:
 
     }
 };
+
+struct PathVertexInfo{
+
+
+    int vertex_id, distance, predecessor;
+
+    PathVertexInfo(int vertex = 0 ) {
+        this->vertex_id = vertex;
+
+        distance = std::numeric_limits<int>::infinity();
+
+        predecessor = -1;
+    }
+
+    static PathVertexInfo* RemoveMin(std::vector<PathVertexInfo*>& items) {
+        if (0 == items.size()) {
+            return nullptr;
+        }
+
+        int minIndex = 0;
+        for (int i = 1; i < items.size(); i++) {
+            if (items[i]->distance < items[minIndex]->distance) {
+                minIndex = i;
+            }
+        }
+
+        PathVertexInfo* infoWithMinDistance = items[minIndex];
+
+        items.erase(items.begin() + minIndex);
+
+        return infoWithMinDistance;
+    }
+
+
+    static void print_path_vertex_info( std::unordered_map<int, PathVertexInfo*> items){
+
+        if (0 == items.size()) {
+            cout<<"NOTHING TO PRINT :( "<<endl;
+        }
+
+        cout<<"VERTEX   DISTANCE  PREDECESSOR"<<endl;
+        for (int i = 0; i < items.size(); i++) {
+            cout<<items[i]->vertex_id<<"    "<<items[i]->distance<<"    "<<items[i]->predecessor<<endl;
+        }
+
+
+    }
+
+
+};
+
+
+
 
 /**
  * @brief Edge class. It represents an edge from one vertex to another

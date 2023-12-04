@@ -10,30 +10,60 @@
 
 
 
-std::vector<int> CityPathFinder::DijkstraShortestPath(int start_vertex, int graph_length,vector<Vertex> cities ) {
+std::unordered_map<int, PathVertexInfo*> CityPathFinder::DijkstraShortestPath(int start_vertex,
+                                                      vector<Vertex> cities,
+                                                      Graph graph) {
 
-    vector<Vertex> unvisited;
+    std::unordered_map<int, PathVertexInfo*> info;
+
+    vector<PathVertexInfo*> unvisited;
+
+
     for (Vertex vertex :cities) {
 
-        if(vertex.id != start_vertex){
-            unvisited.push_back(vertex);
+
+        PathVertexInfo* path_info = new PathVertexInfo(vertex.id);
+
+        unvisited.push_back(path_info);
+
+        info.insert({vertex.id,path_info});
+
+    }
+
+
+    info[start_vertex]->distance = 0;
+
+
+    while(unvisited.size()){
+
+        PathVertexInfo* currentInfo = PathVertexInfo::RemoveMin(unvisited);
+
+
+        for(Edge edge: graph.adjList[currentInfo->vertex_id]){
+//            cout<<"from"<<edge.from_vertex<<":"<<edge.to_vertex<<endl;
+            Vertex adjacentVertex = graph.vertices[edge.to_vertex];
+
+//            cout<<"EDGE WEIGHT"<<edge.weight<<endl;
+
+            int altDistance = currentInfo->distance + edge.weight;
+
+            PathVertexInfo* adjInfo = info[adjacentVertex.id];
+
+//            cout<<"Adj info:"<<adjInfo->distance<<endl;
+
+
+            if(altDistance < adjInfo->distance){
+                info[adjacentVertex.id]->distance = altDistance;
+                info[adjacentVertex.id]->predecessor = currentInfo->vertex_id;
+            }
+
+
         }
-    }
-
-
-
-
-    int distance = 0 ;
-    while (unvisited.size() > 0) {
-
 
     }
 
 
-
-
-
-    return std::vector<int>();
+    return info;
 }
 
 
@@ -108,6 +138,16 @@ int main(){
     std::cout<<"Course: CS311 (Data structures and Algorithms)"<<std::endl;
     std::cout<<"----------------------------------------------------------------"<<std::endl;
     std::cout<<"Author: Bryce Walker and Alvaro Espinoza Merida"<<std::endl;
+
+
+
+    std::unordered_map<int, PathVertexInfo*> info = CityPathFinder::DijkstraShortestPath(0,cities,roads);
+
+    PathVertexInfo::print_path_vertex_info(info);
+
+
+
+
 
 
 }

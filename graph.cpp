@@ -5,14 +5,14 @@
 Graph::Graph(int nV)
 {
     //Creates the graph object by setting value of numVerts to argument
-    numVerts = nV;
-    for(int i = 0; i < numVerts ; i++){
+//    numVerts = nV;
+    for(int i = 0; i < nV ; i++){
         //iterates the amount of verts specificed
         //in each iteration a vert object gets created and placed in the vertices list
         //adjlist had vector of edges added in it so it is a list of list that stores edges
         //each vertex has a corresponding list of adjacent edges
-        Vertex newV(i);
-        vertices.push_back(newV);
+//        Vertex newV(i);
+//        vertices.push_back(newV);
         vector<Edge> newE;
         adjList.push_back(newE);
     }

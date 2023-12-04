@@ -13,7 +13,7 @@ class CityPathFinder {
 
     public:
 
-        std::vector<int> DijkstraShortestPath(int start_vertex, int end_vertex, vector<Vertex> cities);
+    static std::unordered_map<int, PathVertexInfo*>  DijkstraShortestPath(int start_vertex, vector<Vertex> cities, Graph graph);
 
 
 
