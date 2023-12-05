@@ -82,7 +82,9 @@ std::string shortestPath( std::unordered_map<int, PathVertexInfo*> info,
 
         Vertex data = map.at(current);
 //        path = "-> " +std::to_string(current)+ path;
-        path = "-> " + map.at(current).city_name + path;
+        path = "-> " +std::to_string(current) + ":" + map.at(current).city_name + path;
+
+        //TODO: UPDATE THIS SECTION OF THE CODE SO IF WE REACH -1 PREDECESSOR or out of bounds no valid path was found
         if(info[current]->predecessor != -1 ){
             current = info[current]->predecessor;
         }
@@ -210,7 +212,7 @@ int main(int argc, char *argv[]){
 
     std::unordered_map<int, PathVertexInfo*> info = CityPathFinder::DijkstraShortestPath(0,cities,roads);
 
-//    PathVertexInfo::print_path_vertex_info(info);
+    PathVertexInfo::print_path_vertex_info(info);
 
 
 //    cout << shortestPath(info, idMap, 0, 12) << endl;
