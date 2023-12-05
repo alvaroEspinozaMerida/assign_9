@@ -72,25 +72,34 @@ std::unordered_map<int, PathVertexInfo*> CityPathFinder::DijkstraShortestPath(in
 
 
 std::string shortestPath( std::unordered_map<int, PathVertexInfo*> info,
+                          const std::unordered_map<int, Vertex>& map,
                           int start,int end ){
     string path = "";
 
     int current = end;
 
     while(current != start){
-        path = "-> " +std::to_string(current)+ path;
-        current = info[current]->predecessor;
+
+        Vertex data = map.at(current);
+//        path = "-> " +std::to_string(current)+ path;
+        path = "-> " + map.at(current).city_name + path;
+        if(info[current]->predecessor != -1 ){
+            current = info[current]->predecessor;
+        }
+        else{
+            break;
+        }
     }
-    path = std::to_string(current) + path;
+    path = map.at(current).city_name + path;
 
     return path;
 }
 
 
-bool checkInput( std::unordered_map<std::string, Vertex> map ,  std::string input1 ){
+bool checkInput( std::unordered_map<string, Vertex> map ,
+                  std::string nameId){
 
-
-    if (auto search = map.find(input1); search != map.end()){
+    if (auto search = map.find(nameId); search != map.end()){
         return true;
     }
     return false;
@@ -99,10 +108,14 @@ bool checkInput( std::unordered_map<std::string, Vertex> map ,  std::string inpu
 
 
 
-int main(){
+int main(int argc, char *argv[]){
 
+    //lines 104 - 167  are all part of the set up of the project
+    // this includes reading data from the txt files and
+    // the creation of the Graph and Vertexes
     Graph roads(20);
-    std::unordered_map<std::string, Vertex> map;
+    std::unordered_map<std::string, Vertex> nameIdMap;
+    std::unordered_map<int, Vertex> idMap;
 
     vector<Vertex> cities;
 
@@ -154,8 +167,8 @@ int main(){
 
         roads.addVertex(city_data);
 
-        map[s_id] = city_data;
-
+        idMap[id_val] = city_data;
+        nameIdMap[s_id] = city_data;
 
         cities.push_back(city_data);
 
@@ -164,16 +177,11 @@ int main(){
     city_file.close();
 
 
-    cout<< checkInput(map,"AN")<<endl;
-    cout<< checkInput(map,"BK")<<endl;
-    cout<< checkInput(map,"JK")<<endl;
+//    cout<< checkInput(nameIdMap,"AN")<<endl;
+//    cout<< checkInput(nameIdMap,"BK")<<endl;
+//    cout<< checkInput(nameIdMap,"JK")<<endl;
 
 
-
-
-
-
-//    roads.printGraph();
 
     std::cout<<"Author: Bryce Walker and Alvaro Espinoza Merida"<<std::endl;
     std::cout<<"Date: xx/xx/20xx"<<std::endl;
@@ -182,19 +190,32 @@ int main(){
     std::cout<<"Author: Bryce Walker and Alvaro Espinoza Merida"<<std::endl;
 
 
+//    if (argc > 1) {
+//
+//        if(checkInput(nameIdMap, argv[1]) ){
+//            cout<<"Invalid city code:"<<argv[1]<<endl;
+//            return -1;
+//        }
+//        if(checkInput(nameIdMap, argv[2])){
+//            cout<<"Invalid city code:"<<argv[2]<<endl;
+//            return -1;
+//        }
+//
+//
+//    } else {
+//        std::cout << "ERROR : No arguments provided...." << std::endl;
+//    }
+//
+
 
     std::unordered_map<int, PathVertexInfo*> info = CityPathFinder::DijkstraShortestPath(0,cities,roads);
 
-    PathVertexInfo::print_path_vertex_info(info);
+//    PathVertexInfo::print_path_vertex_info(info);
 
 
-    cout<<shortestPath(info,0,12)<<endl;
-    cout<<shortestPath(info,0,18)<<endl;
-    cout<<shortestPath(info,2,20)<<endl;
-
-
-
-
+//    cout << shortestPath(info, idMap, 0, 12) << endl;
+//    cout << shortestPath(info, idMap, 0, 18) << endl;
+    cout << shortestPath(info, idMap, 2, 19) << endl;
 
 
 }
