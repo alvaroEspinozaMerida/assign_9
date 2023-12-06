@@ -36,11 +36,17 @@ public:
 
 
     }
+
+    std::string toString() {
+        return "City:"+city_name+", population "+
+        std::to_string(population)+", elevation "+ std::to_string(elevation);
+    }
+
+
+
 };
 
 struct PathVertexInfo{
-
-
     int vertex_id, distance, predecessor;
 
     PathVertexInfo(int vertex = 0 ) {
