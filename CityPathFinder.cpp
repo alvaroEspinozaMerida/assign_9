@@ -258,10 +258,6 @@ int main(int argc, char *argv[]){
         std::unordered_map<int, PathVertexInfo*> info = CityPathFinder::DijkstraShortestPath(city1Id,cities,roads);
 
 
-        PathVertexInfo::print_path_vertex_info(info);
-
-
-
         if(checkValidPathData(info)){
             cout<<"The shortest path from "<<nameIdMap.find(argv[1])->second.city_name<<" to "
                 <<nameIdMap.find(argv[2])->second.city_name<<" is "<<
