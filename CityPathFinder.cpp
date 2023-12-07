@@ -86,8 +86,7 @@ std::string shortestPath( std::unordered_map<int, PathVertexInfo*> info,
 
     while(current != start){
 
-        Vertex data = map.at(current);
-        path = "-> " +std::to_string(current) + ":" + map.at(current).city_name + path;
+        path = "-> " + map.at(current).city_name + path;
 
         current = info[current]->predecessor;
     }
@@ -97,25 +96,42 @@ std::string shortestPath( std::unordered_map<int, PathVertexInfo*> info,
 }
 
 
+int distanceFromEdge(Graph roads , int end, int start){
+
+    vector<Edge> adjList = roads.adjList[start];
+
+    for (Edge e : adjList){
+
+        if(e.to_vertex == end){
+            return e.weight;
+        }
+
+    }
+
+    return 0;
+
+
+
+}
+
 int shortestPathDistance( std::unordered_map<int, PathVertexInfo*> info,
-                          const std::unordered_map<int, Vertex>& map,
+                          Graph roads,
                           int start,int end ){
-    string path = "";
     int current = end;
     int distance = 0;
 
     while(current != start){
 
-        Vertex data = map.at(current);
-        distance += info[current]->distance;
+
+        distance += distanceFromEdge(roads,current,info[current]->predecessor);
         current = info[current]->predecessor;
 
     }
-    path = map.at(current).city_name + path;
 
-//    return path;
     return  distance;
 }
+
+
 
 
 
@@ -242,14 +258,14 @@ int main(int argc, char *argv[]){
         std::unordered_map<int, PathVertexInfo*> info = CityPathFinder::DijkstraShortestPath(city1Id,cities,roads);
 
 
-//        PathVertexInfo::print_path_vertex_info(info);
+        PathVertexInfo::print_path_vertex_info(info);
 
 
 
         if(checkValidPathData(info)){
             cout<<"The shortest path from "<<nameIdMap.find(argv[1])->second.city_name<<" to "
                 <<nameIdMap.find(argv[2])->second.city_name<<" is "<<
-                to_string(shortestPathDistance(info,idMap,city1Id,city2Id))<<endl;
+                to_string(shortestPathDistance(info,roads,city1Id,city2Id))<<endl;
             cout<<"through the route: "<<shortestPath(info,idMap,city1Id,city2Id)<<endl;
         }
         else{
