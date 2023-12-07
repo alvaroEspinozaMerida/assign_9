@@ -44,6 +44,8 @@ std::unordered_map<int, PathVertexInfo*> CityPathFinder::DijkstraShortestPath(in
         PathVertexInfo* currentInfo = PathVertexInfo::RemoveMin(unvisited);
 
 
+
+
         for(Edge edge: graph.adjList[currentInfo->vertex_id]){
 //            cout<<"from"<<edge.from_vertex<<":"<<edge.to_vertex<<endl;
             Vertex adjacentVertex = graph.vertices[edge.to_vertex];
@@ -95,7 +97,6 @@ std::string shortestPath( std::unordered_map<int, PathVertexInfo*> info,
 }
 
 
-
 int shortestPathDistance( std::unordered_map<int, PathVertexInfo*> info,
                           const std::unordered_map<int, Vertex>& map,
                           int start,int end ){
@@ -127,6 +128,17 @@ bool checkInput( std::unordered_map<string, Vertex> map ,
     }
     return false;
 
+}
+
+
+bool checkValidPathData(std::unordered_map<int, PathVertexInfo*> info){
+    for (auto it = info.begin(); it != info.end(); ++it) {
+
+        if(it->second->distance < 0){
+            return false;
+        }
+    }
+    return true;
 }
 
 
@@ -198,8 +210,11 @@ int main(int argc, char *argv[]){
 
     city_file.close();
 
+    roads.printGraph();
 
-    std::unordered_map<int, PathVertexInfo*> info = CityPathFinder::DijkstraShortestPath(0,cities,roads);
+
+
+//    std::unordered_map<int, PathVertexInfo*> info = CityPathFinder::DijkstraShortestPath(0,cities,roads);
 
     std::cout<<"Author: Bryce Walker and Alvaro Espinoza Merida"<<std::endl;
     std::cout<<"Date: xx/xx/20xx"<<std::endl;
@@ -223,10 +238,25 @@ int main(int argc, char *argv[]){
         int city1Id = nameIdMap.find(argv[1])->second.id;
         int city2Id = nameIdMap.find(argv[2])->second.id;
 
-        cout<<"The shortest path from "<<nameIdMap.find(argv[1])->second.city_name<<" to "
-        <<nameIdMap.find(argv[2])->second.city_name<<" is "<<
-        to_string(shortestPathDistance(info,idMap,city1Id,city2Id))<<endl;
-        cout<<"through the route: "<<shortestPath(info,idMap,city1Id,city2Id)<<endl;
+
+        std::unordered_map<int, PathVertexInfo*> info = CityPathFinder::DijkstraShortestPath(city1Id,cities,roads);
+
+
+//        PathVertexInfo::print_path_vertex_info(info);
+
+
+
+        if(checkValidPathData(info)){
+            cout<<"The shortest path from "<<nameIdMap.find(argv[1])->second.city_name<<" to "
+                <<nameIdMap.find(argv[2])->second.city_name<<" is "<<
+                to_string(shortestPathDistance(info,idMap,city1Id,city2Id))<<endl;
+            cout<<"through the route: "<<shortestPath(info,idMap,city1Id,city2Id)<<endl;
+        }
+        else{
+            cout<<"No route from "<<nameIdMap.find(argv[1])->second.city_name<<" to "
+                <<nameIdMap.find(argv[2])->second.city_name<<endl;
+        }
+
 
     } else {
         std::cout << "ERROR : No arguments provided...." << std::endl;

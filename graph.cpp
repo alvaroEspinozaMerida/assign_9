@@ -4,15 +4,9 @@
 // @param nV The number of vertices in the graph.
 Graph::Graph(int nV)
 {
-    //Creates the graph object by setting value of numVerts to argument
-//    numVerts = nV;
+    numVerts = nV;
+
     for(int i = 0; i < nV ; i++){
-        //iterates the amount of verts specificed
-        //in each iteration a vert object gets created and placed in the vertices list
-        //adjlist had vector of edges added in it so it is a list of list that stores edges
-        //each vertex has a corresponding list of adjacent edges
-//        Vertex newV(i);
-//        vertices.push_back(newV);
         vector<Edge> newE;
         adjList.push_back(newE);
     }
@@ -32,8 +26,8 @@ void Graph::addVertex(Vertex v)
     vertices.push_back(v);
     //new edge list gets added to adj list to represent new list of
     //adjacent verticies to this vertex
-    vector<Edge> newE;
-    adjList.push_back(newE);
+//    vector<Edge> newE;
+//    adjList.push_back(newE);
 
 
 }
