@@ -77,7 +77,13 @@ std::unordered_map<int, PathVertexInfo*> CityPathFinder::DijkstraShortestPath(in
     return info;
 }
 
-
+/**
+ * @brief Returns a string representing the shortest path between a start point and end point
+ * @param info data representing the shortest path data between the start point and all other points
+ * @param map data representing the map of the vertex based on the string key
+ * @param start starting index vertex
+ * @param end ending index vertex
+ */
 std::string shortestPath( std::unordered_map<int, PathVertexInfo*> info,
                           const std::unordered_map<int, Vertex>& map,
                           int start,int end ){
@@ -96,10 +102,15 @@ std::string shortestPath( std::unordered_map<int, PathVertexInfo*> info,
 }
 
 
+/**
+ * @brief Returns a string representing the shortest path between a start point and end point
+ * @param roads data that represents the paths betweent the two vertices
+ * @param end ending index vertex
+ * @param start starting index vertex
+ */
 int distanceFromEdge(Graph roads , int end, int start){
 
     vector<Edge> adjList = roads.adjList[start];
-
     for (Edge e : adjList){
 
         if(e.to_vertex == end){
@@ -107,13 +118,17 @@ int distanceFromEdge(Graph roads , int end, int start){
         }
 
     }
-
     return 0;
-
-
-
 }
 
+
+/**
+ * @brief returns int representing the distance between start and end index
+ * @param info data that represents the shortest distance between start and end point
+ * @param roads data strucure repesents paths between vertices
+ * @param start start point vertex
+ * @param end end point vertex
+ */
 int shortestPathDistance( std::unordered_map<int, PathVertexInfo*> info,
                           Graph roads,
                           int start,int end ){
@@ -136,6 +151,11 @@ int shortestPathDistance( std::unordered_map<int, PathVertexInfo*> info,
 
 
 
+/**
+ * @brief checks the input given on CL
+ * @param map  data representing the map of the vertex based on the string key
+ * @param nameId id currently being verified to exist
+ */
 bool checkInput( std::unordered_map<string, Vertex> map ,
                   std::string nameId){
 
@@ -146,7 +166,11 @@ bool checkInput( std::unordered_map<string, Vertex> map ,
 
 }
 
-
+/**
+ * @brief checks if a valid path exist betweent the points
+ * @param info data that represents the shortest distance between start and end point
+ *
+ */
 bool checkValidPathData(std::unordered_map<int, PathVertexInfo*> info){
     for (auto it = info.begin(); it != info.end(); ++it) {
 
@@ -156,20 +180,17 @@ bool checkValidPathData(std::unordered_map<int, PathVertexInfo*> info){
     }
     return true;
 }
+/**
+ * @brief loads the data into the data structures needed for the program to run
+ * @param nameIdMap
+ * @param idMap
+ * @param cities
+ *
+ */
 
+void loadData(Graph& roads,std::unordered_map<std::string, Vertex>& nameIdMap,
+              std::unordered_map<int, Vertex>& idMap ,vector<Vertex>& cities){
 
-
-
-
-int main(int argc, char *argv[]){
-
-    //lines 104 - 167  are all part of the set up of the project
-    // this includes reading data from the txt files and
-    // the creation of the Graph and Vertexes
-    Graph roads(20);
-    std::unordered_map<std::string, Vertex> nameIdMap;
-    std::unordered_map<int, Vertex> idMap;
-    vector<Vertex> cities;
 
     //adding edge data into the graph
     std::ifstream road_file("road.txt");
@@ -226,11 +247,21 @@ int main(int argc, char *argv[]){
 
     city_file.close();
 
-    roads.printGraph();
+
+}
 
 
 
-//    std::unordered_map<int, PathVertexInfo*> info = CityPathFinder::DijkstraShortestPath(0,cities,roads);
+
+int main(int argc, char *argv[]){
+
+    Graph roads(20);
+    std::unordered_map<std::string, Vertex> nameIdMap;
+    std::unordered_map<int, Vertex> idMap;
+    vector<Vertex> cities;
+
+    loadData(roads,nameIdMap,idMap,cities);
+
 
     std::cout<<"Author: Bryce Walker and Alvaro Espinoza Merida"<<std::endl;
     std::cout<<"Date: xx/xx/20xx"<<std::endl;
@@ -268,7 +299,6 @@ int main(int argc, char *argv[]){
             cout<<"No route from "<<nameIdMap.find(argv[1])->second.city_name<<" to "
                 <<nameIdMap.find(argv[2])->second.city_name<<endl;
         }
-
 
     } else {
         std::cout << "ERROR : No arguments provided...." << std::endl;
