@@ -21,14 +21,8 @@ Graph::~Graph()
 // @brief add a vertex to the graph
 void Graph::addVertex(Vertex v)
 {
-    //verticies get added into the verticies list
-//    numVerts += 1;
-    vertices.push_back(v);
-    //new edge list gets added to adj list to represent new list of
-    //adjacent verticies to this vertex
-//    vector<Edge> newE;
-//    adjList.push_back(newE);
 
+    vertices.push_back(v);
 
 }
 
@@ -86,7 +80,6 @@ vector<int> Graph::DepthFirstSearch(int v)
     while(vertexStack.size() > 0 ){
         //current vertex is grabbed from the front of the stack ie back of vector
         int current = vertexStack.back();
-//        cout<<"Vertex Back(top):"<<current<<endl;
         //front value on stack popped
         vertexStack.pop_back();
         //if the visted doesnt cotain current that means we should place it in the visited vector
@@ -165,8 +158,6 @@ bool Graph::checkCycle()
     while(vertexStack.size() > 0 ){
 
         int current = vertexStack.back();
-
-//        cout<<"Vertex Back(top):"<<current<<endl;
 
         vertexStack.pop_back();
 

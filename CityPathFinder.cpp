@@ -254,12 +254,15 @@ void loadData(Graph& roads,std::unordered_map<std::string, Vertex>& nameIdMap,
 
 
 int main(int argc, char *argv[]){
-
+    //Creation of data structures that store important data about
+    // the vertex and edges of the cities and roads
     Graph roads(20);
     std::unordered_map<std::string, Vertex> nameIdMap;
     std::unordered_map<int, Vertex> idMap;
     vector<Vertex> cities;
 
+    //loading of the data into the apportipate data strucutres;method reads data from txt files
+    //adds the right data into the files
     loadData(roads,nameIdMap,idMap,cities);
 
 
@@ -268,8 +271,10 @@ int main(int argc, char *argv[]){
     std::cout<<"Course: CS311 (Data structures and Algorithms)"<<std::endl;
     std::cout<<"Description : Program to find the shortest route between cities"<<std::endl;
 
+    //checks if the appropiate number of cities have been passed as arguments in CL
     if (argc > 1) {
 
+        //verifies that the user has passed in valid cities that exist within the datastrucutres
         if(!checkInput(nameIdMap, argv[1]) ){
             cout<<"Invalid city code:"<<argv[1]<<endl;
             return -1;
@@ -278,32 +283,37 @@ int main(int argc, char *argv[]){
             cout<<"Invalid city code:"<<argv[2]<<endl;
             return -1;
         }
+        //display the cities data using a toString
         cout <<"----------------------------------------------------------------"<<endl;
         cout<<"From "<<nameIdMap.find(argv[1])->second.toString()<<endl;
         cout<<"To "<<nameIdMap.find(argv[2])->second.toString()<<endl;
 
+        //city ids extracted in order to be used in finding the shortest path alg
         int city1Id = nameIdMap.find(argv[1])->second.id;
         int city2Id = nameIdMap.find(argv[2])->second.id;
 
 
         std::unordered_map<int, PathVertexInfo*> info = CityPathFinder::DijkstraShortestPath(city1Id,cities,roads);
 
-
+        //final if statement that checks that a valid path between city1 and city2 exist
         if(checkValidPathData(info)){
             cout<<"The shortest path from "<<nameIdMap.find(argv[1])->second.city_name<<" to "
                 <<nameIdMap.find(argv[2])->second.city_name<<" is "<<
                 to_string(shortestPathDistance(info,roads,city1Id,city2Id))<<endl;
             cout<<"through the route: "<<shortestPath(info,idMap,city1Id,city2Id)<<endl;
         }
+        //program exits if no route is found
         else{
             cout<<"No route from "<<nameIdMap.find(argv[1])->second.city_name<<" to "
                 <<nameIdMap.find(argv[2])->second.city_name<<endl;
         }
 
-    } else {
+    }
+    //exits if no arguments found
+    else {
         std::cout << "ERROR : No arguments provided...." << std::endl;
     }
-
+    return  0 ;
 }
 
 
